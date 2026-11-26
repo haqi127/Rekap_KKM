@@ -1,0 +1,521 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Rekap Harian KKM (Copy)</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&family=Lora:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: form column on the left, sticky live preview of the 1080x1350 post on the right; stacks on phones. */
+:root{
+  --bg:#F3F8FB; --surface:#FFFFFF; --ink:#0B2E4F; --muted:#4A6781; --line:#C9DEEA;
+  --accent:#0B5FA5; --accent-ink:#FFFFFF; --cyan:#22B8D9; --field:#FFFFFF; --focus:#0E9CC0;
+  --font-body:'Plus Jakarta Sans',system-ui,sans-serif; --font-display:'Fraunces',Georgia,serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A1A29; --surface:#10263A; --ink:#E6F1F8; --muted:#9DB8CC; --line:#25465F;
+  --accent:#5BB5EA; --accent-ink:#06202F; --cyan:#22B8D9; --field:#0A1A29; --focus:#5BD3EE; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A1A29; --surface:#10263A; --ink:#E6F1F8; --muted:#9DB8CC; --line:#25465F;
+  --accent:#5BB5EA; --accent-ink:#06202F; --cyan:#22B8D9; --field:#0A1A29; --focus:#5BD3EE; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5;
+  padding-block:32px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+header h1{font-family:var(--font-display);font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0 0 8px;text-wrap:balance}
+header p{margin:0;color:var(--muted);max-width:60ch}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 10px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:3px;background:var(--cyan)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:32px;align-items:start}
+@media(max-width:900px){.cols{grid-template-columns:minmax(0,1fr)}}
+form{display:flex;flex-direction:column;gap:20px;min-width:0}
+fieldset{border:1px solid var(--line);background:var(--surface);border-radius:14px;margin:0;padding:18px 20px 20px;min-width:0;display:flex;flex-direction:column;gap:14px}
+legend{font-weight:700;font-size:15px;padding:0 8px;margin-left:-8px;color:var(--ink)}
+label{font-size:14px;font-weight:600;display:block;margin-bottom:4px}
+.hint{font-weight:400;color:var(--muted)}
+input[type=text],input[type=date],input[type=number],textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px}
+textarea{resize:vertical;min-height:96px}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible,.pick:focus-within,.sw:focus-within{outline:3px solid var(--focus);outline-offset:2px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media(max-width:520px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.count{font-size:12px;color:var(--muted);text-align:right;margin-top:2px}
+.photo{gap:12px}
+.pickrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.pick{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:14px;cursor:pointer;margin:0}
+.fname{font-size:13px;color:var(--muted);min-width:0;overflow-wrap:anywhere;flex:1 1 120px}
+.link{background:none;border:0;color:var(--accent);font:inherit;font-size:13px;font-weight:600;text-decoration:underline;cursor:pointer;min-height:44px;padding:0 6px}
+details{border-top:1px dashed var(--line);padding-top:10px}
+summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);min-height:32px;display:flex;align-items:center}
+.sliders{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:8px}
+@media(max-width:520px){.sliders{grid-template-columns:minmax(0,1fr)}}
+.sliders label{font-size:12px;font-weight:600;color:var(--muted)}
+input[type=range]{width:100%;accent-color:var(--accent);min-height:28px}
+.swatches{display:flex;flex-wrap:wrap;gap:10px}
+.sw{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px 0 8px;border:1px solid var(--line);border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;margin:0;background:var(--field)}
+.sw i{width:24px;height:24px;border-radius:50%;display:block}
+.sw:has(input:checked){border-color:var(--accent);box-shadow:inset 0 0 0 2px var(--accent)}
+.preview{position:sticky;top:max(16px,env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:14px;min-width:0}
+@media(max-width:900px){.preview{position:static}}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+canvas{display:block;width:100%;height:auto;aspect-ratio:1080/1350;border-radius:6px;background:#fff}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;font-size:16px;cursor:pointer;width:100%}
+.cta:disabled{opacity:.6;cursor:wait}
+.status{font-size:14px;color:var(--muted);min-height:1.5em;margin:0}
+.status.ok{color:var(--accent);font-weight:600}
+.fallback{border:1px dashed var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.fallback p{margin:0;font-size:13px;color:var(--muted)}
+.fallback img{width:100%;border-radius:6px}
+.reset{align-self:flex-start}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">KKM Kelompok 11 · Desa Kota Batu</p>
+    <h1>Rekap Harian KKM</h1>
+    <p>Isi data kegiatan hari ini dan pilih empat foto. Pratinjau berubah langsung di sebelahnya. Setelah selesai, unduh gambar PNG berukuran 1080 × 1350 px untuk diunggah ke Instagram.</p>
+  </header>
+
+  <div class="cols">
+    <form id="form" autocomplete="off" novalidate>
+      <fieldset>
+        <legend>Informasi kegiatan</legend>
+        <div>
+          <label for="kegiatan">Nama kegiatan</label>
+          <input type="text" id="kegiatan" maxlength="60" placeholder="Nama kegiatan hari ini">
+        </div>
+        <div class="grid2">
+          <div>
+            <label for="tanggal">Tanggal</label>
+            <input type="date" id="tanggal">
+          </div>
+          <div>
+            <label for="hari">Hari ke- <span class="hint">(KKM)</span></label>
+            <input type="number" id="hari" min="1" max="99" inputmode="numeric">
+          </div>
+        </div>
+      </fieldset>
+
+      <div id="photos" style="display:flex;flex-direction:column;gap:20px"></div>
+
+      <fieldset>
+        <legend>Ringkasan kegiatan</legend>
+        <div>
+          <label for="ringkasan">Rekap singkat <span class="hint">(maksimal 3 baris di gambar)</span></label>
+          <textarea id="ringkasan" maxlength="220" placeholder="Sasaran atau peserta, materi, dan hasil yang dicapai hari ini"></textarea>
+          <div class="count" id="ringkasan-count" aria-live="off">0 / 220</div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Identitas dan warna</legend>
+        <div>
+          <label for="file-logo">Logo KKM <span class="hint">(PNG berlatar transparan paling rapi)</span></label>
+          <div class="pickrow">
+            <input type="file" id="file-logo" class="sr" accept="image/*">
+            <label class="pick" for="file-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg><span id="pl-logo">Pilih logo KKM</span></label>
+            <span class="fname" id="fn-logo">Belum ada logo</span>
+            <button type="button" class="link" id="rm-logo" hidden>Hapus</button>
+          </div>
+        </div>
+        <div class="grid2">
+          <div>
+            <label for="kelompok">Kelompok KKM</label>
+            <input type="text" id="kelompok" maxlength="4">
+          </div>
+          <div>
+            <label for="desa">Desa</label>
+            <input type="text" id="desa" maxlength="30">
+          </div>
+        </div>
+        <div>
+          <label for="akun">Username Instagram</label>
+          <input type="text" id="akun" maxlength="30" placeholder="tanpa tanda @">
+        </div>
+        <div class="grid2">
+          <div>
+            <label for="font">Gaya huruf</label>
+            <select id="font">
+              <option value="klasik">Klasik (Fraunces)</option>
+              <option value="modern">Modern (Poppins)</option>
+              <option value="tegas">Tegas (Montserrat)</option>
+              <option value="elegan">Elegan (Playfair)</option>
+              <option value="santai">Santai (Nunito)</option>
+            </select>
+          </div>
+          <div>
+            <label for="hariPos">Tulisan "Hari ke-"</label>
+            <select id="hariPos">
+              <option value="atas">Kotak kanan atas</option>
+              <option value="bawah">Di baris bawah</option>
+              <option value="sembunyi">Sembunyikan</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label id="warna-label">Warna utama</label>
+          <div class="swatches" role="radiogroup" aria-labelledby="warna-label" id="swatches"></div>
+        </div>
+      </fieldset>
+      <button type="button" class="link reset" id="reset">Kosongkan semua isian</button>
+    </form>
+
+    <aside class="preview" aria-label="Pratinjau postingan">
+      <div class="stage"><canvas id="cv" width="1080" height="1350" role="img" aria-label="Pratinjau postingan rekap harian"></canvas></div>
+      <button type="button" class="cta" id="save">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+        Unduh PNG 1080 × 1350
+      </button>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+      <div class="fallback" id="fallback" hidden>
+        <p>Unduhan langsung tidak tersedia di tampilan ini. Tekan lama gambar di bawah (atau klik kanan di komputer), lalu pilih Simpan gambar.</p>
+        <img id="fallback-img" alt="Hasil rekap siap disimpan">
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function(){
+  var W=1080,H=1350;
+  var FD, FB;
+  var FONTS={
+    klasik:{df:'Fraunces',bf:'Plus Jakarta Sans',d:"'Fraunces', Georgia, serif",b:"'Plus Jakarta Sans', system-ui, sans-serif"},
+    modern:{df:'Poppins',bf:'Poppins',d:"'Poppins', system-ui, sans-serif",b:"'Poppins', system-ui, sans-serif"},
+    tegas:{df:'Montserrat',bf:'Montserrat',d:"'Montserrat', system-ui, sans-serif",b:"'Montserrat', system-ui, sans-serif"},
+    elegan:{df:'Playfair Display',bf:'Lora',d:"'Playfair Display', Georgia, serif",b:"'Lora', Georgia, serif"},
+    santai:{df:'Nunito',bf:'Nunito',d:"'Nunito', system-ui, sans-serif",b:"'Nunito', system-ui, sans-serif"}
+  };
+  var COLORS=[
+    {name:'Biru',v:'#0B5FA5'},{name:'Teal',v:'#0E7490'},
+    {name:'Biru royal',v:'#1D4ED8'},{name:'Navy',v:'#0B2E4F'}
+  ];
+  var DEFAULTS={kegiatan:'',tanggal:'',hari:'1',ringkasan:'',kelompok:'11',desa:'Kota Batu',akun:'kkm.kotabatu26',accent:COLORS[0].v,font:'klasik',hariPos:'atas'};
+  var KEY='rekap-kkm-draft-v1';
+
+  function iso(d){var m=('0'+(d.getMonth()+1)).slice(-2),dd=('0'+d.getDate()).slice(-2);return d.getFullYear()+'-'+m+'-'+dd}
+  var state=Object.assign({},DEFAULTS,{tanggal:iso(new Date())});
+  state.photos=[0,1,2,3].map(function(){return{img:null,name:'',caption:'',zoom:100,x:50,y:50}});
+
+  try{
+    var saved=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(saved){
+      Object.keys(DEFAULTS).concat(['tanggal']).forEach(function(k){if(typeof saved[k]==='string')state[k]=saved[k]});
+      if(Array.isArray(saved.caps))saved.caps.forEach(function(c,i){if(state.photos[i]&&typeof c==='string')state.photos[i].caption=c});
+    }
+  }catch(e){}
+  function persist(){
+    try{localStorage.setItem(KEY,JSON.stringify({kegiatan:state.kegiatan,tanggal:state.tanggal,hari:state.hari,ringkasan:state.ringkasan,kelompok:state.kelompok,desa:state.desa,akun:state.akun,accent:state.accent,font:state.font,hariPos:state.hariPos,caps:state.photos.map(function(p){return p.caption})}))}catch(e){}
+  }
+
+  var $=function(id){return document.getElementById(id)};
+  var cv=$('cv'),ctx=cv.getContext('2d');
+
+  /* ---------- logo KKM (tersimpan di perangkat ini) ---------- */
+  function loadFonts(){
+    var fp=FONTS[state.font]||FONTS.klasik,l=[];
+    [400,500,600,700].forEach(function(w){l.push(w+' 24px "'+fp.bf+'"')});
+    l.push('700 56px "'+fp.df+'"');
+    if(document.fonts&&document.fonts.load)Promise.all(l.map(function(f){return document.fonts.load(f,'Aa')})).then(function(){draw()}).catch(function(){});
+  }
+  $('font').addEventListener('change',loadFonts);
+  var LOGO_KEY='rekap-kkm-logo-v1';
+  var logo={img:null,name:''};
+  function setLogo(src,name){
+    var im=new Image();
+    im.onload=function(){
+      logo.img=im;logo.name=name;
+      $('fn-logo').textContent=name;$('pl-logo').textContent='Ganti logo';$('rm-logo').hidden=false;
+      schedule();
+    };
+    im.src=src;
+  }
+  $('file-logo').addEventListener('change',function(e){
+    var f=e.target.files&&e.target.files[0];
+    if(!f)return;
+    if(!/^image\//.test(f.type)){say('File logo harus berupa gambar.');return}
+    var url=URL.createObjectURL(f),im=new Image();
+    im.onload=function(){
+      var s=Math.min(1,400/Math.max(im.naturalWidth,im.naturalHeight));
+      var t=document.createElement('canvas');
+      t.width=Math.max(1,Math.round(im.naturalWidth*s));t.height=Math.max(1,Math.round(im.naturalHeight*s));
+      t.getContext('2d').drawImage(im,0,0,t.width,t.height);
+      var data=t.toDataURL('image/png');
+      try{localStorage.setItem(LOGO_KEY,JSON.stringify({d:data,n:f.name}))}catch(err){}
+      URL.revokeObjectURL(url);
+      setLogo(data,f.name);
+    };
+    im.onerror=function(){say('Logo tidak bisa dibuka. Coba format PNG atau JPG.')};
+    im.src=url;
+  });
+  $('rm-logo').addEventListener('click',function(){
+    logo.img=null;logo.name='';$('file-logo').value='';
+    $('fn-logo').textContent='Belum ada logo';$('pl-logo').textContent='Pilih logo KKM';$('rm-logo').hidden=true;
+    try{localStorage.removeItem(LOGO_KEY)}catch(err){}
+    schedule();
+  });
+  try{var sl=JSON.parse(localStorage.getItem(LOGO_KEY)||'null');if(sl&&sl.d)setLogo(sl.d,sl.n||'Logo KKM')}catch(err){}
+
+  /* ---------- build photo cards ---------- */
+  var photosEl=$('photos');
+  [0,1,2,3].forEach(function(i){
+    var n=i+1;
+    var fs=document.createElement('fieldset');
+    fs.className='photo';
+    fs.innerHTML=
+      '<legend>Foto '+n+'</legend>'+
+      '<div class="pickrow">'+
+        '<input type="file" id="file-'+i+'" class="sr" accept="image/*">'+
+        '<label class="pick" for="file-'+i+'"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg><span id="pl-'+i+'">Pilih foto</span></label>'+
+        '<span class="fname" id="fn-'+i+'">Belum ada foto</span>'+
+        '<button type="button" class="link" id="rm-'+i+'" hidden>Hapus</button>'+
+      '</div>'+
+      '<div><label for="cap-'+i+'">Keterangan foto '+n+'</label>'+
+      '<input type="text" id="cap-'+i+'" maxlength="90" placeholder="Tulis keterangan foto '+n+'"></div>'+
+      '<details><summary>Atur potongan foto</summary><div class="sliders">'+
+        '<div><label for="zm-'+i+'">Perbesar</label><input type="range" id="zm-'+i+'" min="100" max="250" step="5" value="100"></div>'+
+        '<div><label for="px-'+i+'">Geser kiri-kanan</label><input type="range" id="px-'+i+'" min="0" max="100" value="50"></div>'+
+        '<div><label for="py-'+i+'">Geser atas-bawah</label><input type="range" id="py-'+i+'" min="0" max="100" value="50"></div>'+
+      '</div></details>';
+    photosEl.appendChild(fs);
+  });
+
+  var swEl=$('swatches');
+  COLORS.forEach(function(c,i){
+    var l=document.createElement('label');l.className='sw';
+    l.innerHTML='<input type="radio" name="warna" class="sr" value="'+c.v+'"><i style="background:'+c.v+'"></i>'+c.name;
+    swEl.appendChild(l);
+  });
+
+  /* ---------- sync fields <-> state ---------- */
+  var textIds=['kegiatan','tanggal','hari','ringkasan','kelompok','desa','akun','font','hariPos'];
+  function fillForm(){
+    textIds.forEach(function(k){$(k).value=state[k]});
+    $('ringkasan-count').textContent=state.ringkasan.length+' / 220';
+    Array.prototype.forEach.call(document.querySelectorAll('input[name=warna]'),function(r){r.checked=(r.value===state.accent)});
+    state.photos.forEach(function(p,i){
+      $('cap-'+i).value=p.caption;$('zm-'+i).value=p.zoom;$('px-'+i).value=p.x;$('py-'+i).value=p.y;
+      $('fn-'+i).textContent=p.img?p.name:'Belum ada foto';
+      $('pl-'+i).textContent=p.img?'Ganti foto':'Pilih foto';
+      $('rm-'+i).hidden=!p.img;
+    });
+  }
+  textIds.forEach(function(k){
+    $(k).addEventListener('input',function(){
+      state[k]=$(k).value;
+      if(k==='akun')state.akun=state.akun.replace(/^@+/,'').replace(/\s+/g,'');
+      if(k==='ringkasan')$('ringkasan-count').textContent=state.ringkasan.length+' / 220';
+      persist();schedule();
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('input[name=warna]'),function(r){
+    r.addEventListener('change',function(){state.accent=r.value;persist();schedule()});
+  });
+  state.photos.forEach(function(p,i){
+    $('cap-'+i).addEventListener('input',function(){p.caption=$('cap-'+i).value;persist();schedule()});
+    ['zm:zoom','px:x','py:y'].forEach(function(s){
+      var a=s.split(':');
+      $(a[0]+'-'+i).addEventListener('input',function(e){p[a[1]]=+e.target.value;schedule()});
+    });
+    $('file-'+i).addEventListener('change',function(e){
+      var f=e.target.files&&e.target.files[0];
+      if(!f)return;
+      if(!/^image\//.test(f.type)){say('File harus berupa gambar.');return}
+      var url=URL.createObjectURL(f);
+      var im=new Image();
+      im.onload=function(){
+        p.img=im;p.name=f.name;p.zoom=100;p.x=50;p.y=50;
+        $('fn-'+i).textContent=f.name;$('pl-'+i).textContent='Ganti foto';$('rm-'+i).hidden=false;
+        $('zm-'+i).value=100;$('px-'+i).value=50;$('py-'+i).value=50;
+        schedule();
+      };
+      im.onerror=function(){say('Foto '+(i+1)+' tidak bisa dibuka. Coba format JPG atau PNG.')};
+      im.src=url;
+    });
+    $('rm-'+i).addEventListener('click',function(){
+      p.img=null;p.name='';$('file-'+i).value='';
+      $('fn-'+i).textContent='Belum ada foto';$('pl-'+i).textContent='Pilih foto';$('rm-'+i).hidden=true;
+      schedule();
+    });
+  });
+  $('reset').addEventListener('click',function(){
+    Object.assign(state,DEFAULTS,{tanggal:iso(new Date())});
+    state.photos.forEach(function(p){p.img=null;p.name='';p.caption='';p.zoom=100;p.x=50;p.y=50;});
+    Array.prototype.forEach.call(document.querySelectorAll('input[type=file]'),function(f){f.value=''});
+    fillForm();persist();schedule();say('Semua isian dikosongkan.');
+  });
+
+  /* ---------- drawing ---------- */
+  function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+  function ls(px){if('letterSpacing' in ctx)ctx.letterSpacing=px+'px'}
+  function wrap(text,maxW,maxLines){
+    var words=text.replace(/\s+/g,' ').trim().split(' '),lines=[],cur='';
+    for(var i=0;i<words.length;i++){
+      var t=cur?cur+' '+words[i]:words[i];
+      if(ctx.measureText(t).width<=maxW||!cur){cur=t}else{lines.push(cur);cur=words[i]}
+    }
+    if(cur)lines.push(cur);
+    if(lines.length>maxLines){
+      lines=lines.slice(0,maxLines);
+      var last=lines[maxLines-1];
+      while(last.length>1&&ctx.measureText(last+'…').width>maxW)last=last.slice(0,-1);
+      lines[maxLines-1]=last.replace(/[\s.,;:]+$/,'')+'…';
+    }
+    return lines;
+  }
+  function fmtDate(s){
+    if(!s)return '';
+    var p=s.split('-');if(p.length!==3)return '';
+    var d=new Date(+p[0],+p[1]-1,+p[2]);
+    try{return new Intl.DateTimeFormat('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(d)}catch(e){return s}
+  }
+  var INK='#0B2E4F',SUB='#3E5C78',PH='#8FA6BA',CYAN='#22B8D9',LINE='#BFE3EF';
+
+  function draw(){
+    var c=ctx,acc=state.accent;
+    var fp=FONTS[state.font]||FONTS.klasik;FD=fp.d;FB=fp.b;
+    c.setTransform(1,0,0,1,0,0);
+    c.fillStyle='#FFFFFF';c.fillRect(0,0,W,H);
+    c.textBaseline='alphabetic';c.textAlign='left';ls(0);
+
+    /* header */
+    var hx=64,hw=(state.hariPos==='atas'?782:952);
+    if(logo.img){
+      var lw=logo.img.naturalWidth,lh=logo.img.naturalHeight,lsc=Math.min(138/lw,138/lh);
+      var lW=lw*lsc,lH=lh*lsc;
+      c.drawImage(logo.img,64+(138-lW)/2,56+(138-lH)/2,lW,lH);
+      hx=224;hw-=160;
+    }
+    c.fillStyle=CYAN;c.fillRect(hx,72,44,4);
+    c.fillStyle=acc;c.font='700 22px '+FB;ls(4);
+    c.fillText('REKAP KKM · KELOMPOK '+(state.kelompok||'—'),hx+58,84);ls(0);
+
+    var title=state.kegiatan.trim(),tFont,size;
+    for(size=56;size>=30;size-=2){c.font='700 '+size+'px '+FD;if(c.measureText(title||'Nama Kegiatan Hari Ini').width<=hw)break}
+    c.fillStyle=title?INK:PH;
+    var shown=title||'Nama Kegiatan Hari Ini';
+    c.font='700 '+size+'px '+FD;
+    if(c.measureText(shown).width>hw){shown=wrap(shown,hw,1)[0]}
+    c.fillText(shown,hx,150);
+
+    var dt=fmtDate(state.tanggal);
+    var sub=(state.desa?'Desa '+state.desa:'Desa …')+' · '+(dt||'Hari, tanggal');
+    c.font='500 26px '+FB;c.fillStyle=SUB;
+    c.fillText(wrap(sub,hw,1)[0],hx,192);
+
+    if(state.hariPos==='atas'){
+    rr(878,56,138,138,28);c.fillStyle=acc;c.fill();
+    c.fillStyle='#FFFFFF';c.textAlign='center';
+    c.font='600 18px '+FB;ls(3);c.fillText('HARI KE',947+1.5,98);ls(0);
+    var hari=(state.hari||'').toString().trim()||'–';
+    c.font='700 '+(hari.length>2?54:72)+'px '+FD;c.fillText(hari,947,170);}
+    c.textAlign='left';
+
+    /* photo grid */
+    var gx=64,gy=222,cw=464,ch=390,gap=24,ph=294;
+    state.photos.forEach(function(p,i){
+      var x=gx+(i%2)*(cw+gap),y=gy+Math.floor(i/2)*(ch+gap);
+      c.save();rr(x,y,cw,ch,22);c.clip();
+      c.fillStyle='#FFFFFF';c.fillRect(x,y,cw,ch);
+      c.save();c.beginPath();c.rect(x,y,cw,ph);c.clip();
+      if(p.img){
+        var iw=p.img.naturalWidth,ih=p.img.naturalHeight;
+        var sc=Math.max(cw/iw,ph/ih)*(p.zoom/100);
+        var dw=iw*sc,dh=ih*sc;
+        var dx=x-(dw-cw)*(p.x/100),dy=y-(dh-ph)*(p.y/100);
+        c.drawImage(p.img,dx,dy,dw,dh);
+      }else{
+        c.fillStyle='#E3F5FA';c.fillRect(x,y,cw,ph);
+        c.strokeStyle='#2F5F7E';c.lineWidth=3;c.lineJoin='round';c.lineCap='round';
+        var ix=x+cw/2-28,iy=y+ph/2-46;
+        rr(ix,iy,56,48,10);c.stroke();
+        c.beginPath();c.arc(ix+17,iy+17,5,0,Math.PI*2);c.stroke();
+        c.beginPath();c.moveTo(ix+56-4,iy+34);c.lineTo(ix+40,iy+20);c.lineTo(ix+14,iy+46);c.stroke();
+        c.fillStyle='#2F5F7E';c.font='600 22px '+FB;c.textAlign='center';
+        c.fillText('Foto '+(i+1)+' belum dipilih',x+cw/2,y+ph/2+46);c.textAlign='left';
+      }
+      c.restore();
+      c.fillStyle=acc;c.font='700 15px '+FB;ls(2);
+      c.fillText('KETERANGAN FOTO '+(i+1),x+20,y+ph+30);ls(0);
+      c.font='400 23px '+FB;
+      var cap=p.caption.trim();
+      c.fillStyle=cap?INK:PH;
+      wrap(cap||'Tulis keterangan foto di sini',cw-40,2).forEach(function(l,k){c.fillText(l,x+20,y+ph+58+k*27)});
+      c.restore();
+      c.strokeStyle=LINE;c.lineWidth=2;rr(x+1,y+1,cw-2,ch-2,21);c.stroke();
+    });
+
+    /* summary */
+    var sy=1054;
+    rr(64,sy,952,168,22);c.fillStyle=acc;c.fill();
+    c.fillStyle='#8FE3F5';c.font='700 18px '+FB;ls(3);c.fillText('RINGKASAN KEGIATAN',96,sy+42);ls(0);
+    var rk=state.ringkasan.trim();
+    c.font='400 26px '+FB;c.fillStyle=rk?'#FFFFFF':'rgba(255,255,255,.6)';
+    wrap(rk||'Tulis rekap singkat kegiatan hari ini.',888,3).forEach(function(l,k){c.fillText(l,96,sy+84+k*34)});
+
+    /* footer */
+    c.fillStyle=CYAN;c.fillRect(64,1250,952,3);
+    c.fillStyle=acc;c.font='700 24px '+FB;
+    c.fillText('@'+(state.akun||'username'),64,1250+36);
+    c.fillStyle=SUB;c.font='500 20px '+FB;ls(2);c.textAlign='right';
+    c.fillText(('KKM KELOMPOK '+(state.kelompok||'—')+' · DESA '+(state.desa||'…')+(state.hariPos==='bawah'?' · HARI KE-'+((state.hari||'').toString().trim()||'–'):'')).toUpperCase(),1016,1250+35);
+    ls(0);c.textAlign='left';
+  }
+
+  var raf=0;
+  function schedule(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;draw()})}
+
+  /* ---------- export ---------- */
+  var dl=null;
+  try{if(window.claude&&claude.use){claude.use('downloads').then(function(d){dl=d}).catch(function(){})}}catch(e){}
+  var statusEl=$('status');
+  function say(msg,ok){statusEl.textContent=msg;statusEl.className='status'+(ok?' ok':'')}
+  function missing(){
+    var m=[];
+    if(!state.kegiatan.trim())m.push('nama kegiatan');
+    var n=state.photos.filter(function(p){return !p.img}).length;
+    if(n)m.push(n+' foto');
+    if(state.photos.some(function(p){return !p.caption.trim()}))m.push('keterangan foto');
+    if(!state.ringkasan.trim())m.push('ringkasan');
+    return m;
+  }
+  $('save').addEventListener('click',function(){
+    var btn=$('save');
+    draw();
+    var miss=missing();
+    var hari=(state.hari||'1').toString().replace(/\D/g,'')||'1';
+    var name='rekap-kkm-kelompok-'+(state.kelompok||'x').replace(/[^\w-]/g,'')+'-hari-'+hari+'.png';
+    btn.disabled=true;
+    cv.toBlob(function(blob){
+      if(!blob){btn.disabled=false;say('Gambar gagal dibuat. Coba lagi.');return}
+      if(!dl){
+        $('fallback-img').src=URL.createObjectURL(blob);$('fallback').hidden=false;
+        btn.disabled=false;say('Gambar sudah siap di bawah pratinjau.',true);return;
+      }
+      dl.save({filename:name,data:blob}).then(function(){
+        say('Tersimpan'+(miss.length?'. Catatan: '+miss.join(', ')+' masih kosong.':'.'),true);
+      }).catch(function(err){
+        var code=err&&err.code;
+        if(code==='declined')say('Unduhan dibatalkan.');
+        else if(code==='rate_limited')say('Tunggu sebentar, lalu coba lagi.');
+        else{
+          $('fallback-img').src=URL.createObjectURL(blob);$('fallback').hidden=false;
+          say('Unduhan langsung tidak tersedia. Simpan gambar dari bawah pratinjau.');
+        }
+      }).then(function(){btn.disabled=false});
+    },'image/png');
+  });
+
+  fillForm();
+  draw();
+  loadFonts();
+  if(document.fonts&&document.fonts.load){
+    Promise.all(['700 56px Fraunces','700 22px "Plus Jakarta Sans"','600 18px "Plus Jakarta Sans"','500 26px "Plus Jakarta Sans"','400 23px "Plus Jakarta Sans"'].map(function(f){return document.fonts.load(f,'Aa')}))
+      .then(draw).catch(function(){});
+    document.fonts.ready.then(draw);
+  }
+})();
+</script>
+
+</body></html>
