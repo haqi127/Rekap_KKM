@@ -467,8 +467,6 @@ canvas{display:block;width:100%;height:auto;aspect-ratio:1080/1350;border-radius
   function schedule(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;draw()})}
 
   /* ---------- export ---------- */
-  var dl=null;
-  try{if(window.claude&&claude.use){claude.use('downloads').then(function(d){dl=d}).catch(function(){})}}catch(e){}
   var statusEl=$('status');
   function say(msg,ok){statusEl.textContent=msg;statusEl.className='status'+(ok?' ok':'')}
   function missing(){
@@ -489,24 +487,20 @@ canvas{display:block;width:100%;height:auto;aspect-ratio:1080/1350;border-radius
     btn.disabled=true;
     cv.toBlob(function(blob){
       if(!blob){btn.disabled=false;say('Gambar gagal dibuat. Coba lagi.');return}
-      if(!dl){
-        $('fallback-img').src=URL.createObjectURL(blob);$('fallback').hidden=false;
-        btn.disabled=false;say('Gambar sudah siap di bawah pratinjau.',true);return;
-      }
-      dl.save({filename:name,data:blob}).then(function(){
-        say('Tersimpan'+(miss.length?'. Catatan: '+miss.join(', ')+' masih kosong.':'.'),true);
-      }).catch(function(err){
-        var code=err&&err.code;
-        if(code==='declined')say('Unduhan dibatalkan.');
-        else if(code==='rate_limited')say('Tunggu sebentar, lalu coba lagi.');
-        else{
-          $('fallback-img').src=URL.createObjectURL(blob);$('fallback').hidden=false;
-          say('Unduhan langsung tidak tersedia. Simpan gambar dari bawah pratinjau.');
-        }
-      }).then(function(){btn.disabled=false});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url;
+      a.download=name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function(){URL.revokeObjectURL(url)},1000);
+      btn.disabled=false;
+      say('Tersimpan'+(miss.length?'. Catatan: '+miss.join(', ')+' masih kosong.':'.'),true);
     },'image/png');
   });
 
+  
   fillForm();
   draw();
   loadFonts();
